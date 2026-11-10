@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: parfumerie-downloader
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --timeout 120 --workers 1
+    envVars:
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: crawler-data
+      mountPath: /var/data
+      sizeGB: 1
